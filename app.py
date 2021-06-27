@@ -1,16 +1,17 @@
-from classifier import getPrediction
 from flask import Flask, jsonify, request
+from classifier import get_prediction
 
 app = Flask(__name__)
+@app.route('/')
+def index():
+    return 'Welcome To The Home Page'
 
-@app.route('/predict-alphabet', methods=['POST'])
-
-def predict_data():
-    image = request.files.get('alphabet')
-    prediction = getPrediction(image)
+@app.route('/predict', methods=['POST'])
+def predict():
+    image = request.files.get("letter")
+    prediction = get_prediction(image)
     return jsonify({
-        'prediction': prediction
-    }),200
-
+        "prediction": prediction
+    }), 200
 if __name__ == '__main__':
     app.run(debug=True)
